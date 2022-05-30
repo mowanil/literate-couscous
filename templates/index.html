@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="pt-br">
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+
+<body>
+
+</body>
+
+<script type="text/javascript">
+    window.addEventListener('load', function (event) {
+        // holds up our connection
+        var connection;
+        var address = "ws://localhost:8081/ws"
+        var log = console.log;
+        var caveman = "Your browser does not support WebSockets, caveman!"
+
+        // check whether websocket object is available
+        if (window["WebSocket"]) {
+            connection = new WebSocket(address)
+            // assign function to onclose event 
+            connection.onclose = function (evt) {
+                log("Connection closed by server or network.\nCode:", evt.code)
+            }
+
+            // assign function to onmessage event
+            connection.onmessage = function (evt) {
+                log("Others receive:", evt.data)
+            }
+
+            // this behaviour should be implemented by the client application
+            connection.onopen = function () {
+                var message = "Hey, cavemen!"
+                log("Client sends:", message)
+                connection.send(message)
+            }
+        } else {
+            // you should render this on your page btw
+            log(caveman)
+        }
+    })
+</script>
+
+</html>
